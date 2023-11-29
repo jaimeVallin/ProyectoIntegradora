@@ -87,7 +87,9 @@
         app:layout_constraintTop_toBottomOf="@id/ll1"
         app:layout_constraintStart_toStartOf="@id/v05"
         app:layout_constraintEnd_toEndOf="@id/v95"
-        app:layout_constraintBottom_toBottomOf="@id/h95"/>
+        app:layout_constraintBottom_toBottomOf="@id/h95"
+        android:visibility="visible"
+        />
 
     <Button
         android:id="@+id/verAlbum"

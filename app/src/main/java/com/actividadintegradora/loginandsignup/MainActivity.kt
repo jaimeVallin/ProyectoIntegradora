@@ -9,6 +9,7 @@ import android.os.Bundle
 import android.os.Environment
 import android.provider.MediaStore
 import android.util.Log
+import android.view.View
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
@@ -47,10 +48,20 @@ class MainActivity : AppCompatActivity() {
         }
 
         binding.saveToGallery.setOnClickListener {
-            saveToGallery()
             // Actualizar el URI después de guardar
-            currentImageUri?.let { uri ->
-                binding.img.setImageURI(uri)
+            if (currentImageUri != null) {
+                saveToGallery()
+            }
+                currentImageUri?.let { uri ->
+                    if (!uri.toString().isNullOrEmpty()) {
+                        binding.img.setImageURI(uri)
+                        // Ocultar la imagen después de establecer el URI
+                        binding.img.visibility = View.GONE
+
+                    } else {
+                    // Manejar el caso donde el URI está vacío
+                    Toast.makeText(this, "No hay imagen para guardar", Toast.LENGTH_SHORT).show()
+                }
             }
         }
 
@@ -109,11 +120,12 @@ class MainActivity : AppCompatActivity() {
         try {
             val uri = save(content)
             clearContents(content, uri)
-            Toast.makeText(this, getString(R.string.image_saved), Toast.LENGTH_LONG).show()
+            Toast.makeText(this, getString(R.string.image_saved), Toast.LENGTH_SHORT).show()
         } catch (e: IllegalArgumentException) {
             e.printStackTrace()
-            Toast.makeText(this, getString(R.string.save_error), Toast.LENGTH_LONG).show()
+            Toast.makeText(this, getString(R.string.save_error), Toast.LENGTH_SHORT).show()
         }
+
     }
 
     private fun createContent(): ContentValues {
@@ -138,6 +150,8 @@ class MainActivity : AppCompatActivity() {
             getBitmap().compress(Bitmap.CompressFormat.JPEG, 100, output)
         }
         return uri!!
+
+
     }
 
     private fun clearContents(content: ContentValues, uri: Uri) {
