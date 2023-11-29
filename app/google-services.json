@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1023180061889",
+    "project_id": "loginandsingup-f3cd3",
+    "storage_bucket": "loginandsingup-f3cd3.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1023180061889:android:d0457c540103224ccd2840",
+        "android_client_info": {
+          "package_name": "com.example.myapplication2"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAEd0BLR9xmVuC5gInw9xMfvHF1vVdc3iA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

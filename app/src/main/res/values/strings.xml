@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">Wedding-Snap</string>
+    <string name="image_saved">Se ha guardado la imagen </string>
+    <string name="open">Abrir</string>
+    <string name="gallery">Galería</string>
+    <string name="save">Guardar</string>
+    <string name="ver_albums">Ver albums</string>
+    <string name="save_error">Se ha guardado la imagen</string>
+</resources>
