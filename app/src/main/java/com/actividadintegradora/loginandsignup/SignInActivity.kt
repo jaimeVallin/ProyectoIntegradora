@@ -7,6 +7,8 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.actividadintegradora.loginandsignup.databinding.ActivitySignInBinding
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
+import com.google.firebase.auth.FirebaseAuthInvalidUserException
 
 class SignInActivity : AppCompatActivity() {
 
@@ -40,20 +42,47 @@ class SignInActivity : AppCompatActivity() {
                             } else {
                                 // Loguea la excepción para obtener más información
                                 Log.e("SignInActivity", "Error al iniciar sesión: ${task.exception}")
-                                Toast.makeText(
-                                    this,
-                                    "Authentication failed: ${task.exception?.message}",
-                                    Toast.LENGTH_SHORT
-                                ).show()
+
+                                // Maneja la excepción específica
+                                when (task.exception) {
+                                    is FirebaseAuthInvalidUserException -> {
+                                        Toast.makeText(
+                                            this,
+                                            "El usuario no existe",
+                                            Toast.LENGTH_SHORT
+                                        ).show()
+                                    }
+                                    is FirebaseAuthInvalidCredentialsException -> {
+                                        Toast.makeText(
+                                            this,
+                                            "Correo o contraseña incorrectos",
+                                            Toast.LENGTH_SHORT
+                                        ).show()
+                                    }
+                                    else -> {
+                                        Toast.makeText(
+                                            this,
+
+                                            "Usuario o contraseña no incorrectos: ${task.exception?.message}",
+                                            Toast.LENGTH_SHORT
+                                        ).show()
+                                    }
+                                }
                             }
                         }
-                } catch (e: Exception) {
-                    // Maneja cualquier otra excepción aquí
-                    Log.e("SignInActivity", "Error: $e")
-                    Toast.makeText(this, "Unexpected error occurred", Toast.LENGTH_SHORT).show()
-                }
-            } else {
-                Toast.makeText(this, "Empty Fields Are not Allowed !!", Toast.LENGTH_SHORT).show()
+                } catch (e: FirebaseAuthInvalidUserException) {
+            Log.e("SignInActivity", "Error al iniciar sesión - Usuario no existe: $e")
+            Toast.makeText(this, "El usuario no existe", Toast.LENGTH_SHORT).show()
+        } catch (e: FirebaseAuthInvalidCredentialsException) {
+            Log.e("SignInActivity", "Error al iniciar sesión - Credenciales incorrectas: $e")
+            Toast.makeText(this, "Correo o contraseña incorrectos", Toast.LENGTH_SHORT).show()
+        } catch (e: Exception) {
+            Log.e("SignInActivity", "Error inesperado al iniciar sesión: $e")
+            Toast.makeText(this, "Unexpected error occurred", Toast.LENGTH_SHORT).show()
+        }
+
+        } else {
+                Toast.makeText(this, "No se permite espacios vacias", Toast.LENGTH_SHORT).show()
             }
         }
     }
